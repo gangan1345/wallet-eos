@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'com.lgann.develop'
+version '1.0.0'
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    compile 'com.lgann.develop:mnemonic-sdk:1.0.0'
+
+    compile 'com.squareup.retrofit2:converter-jackson:2.0.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+
+    compile 'org.bouncycastle:bcprov-jdk15on:1.59'
+}
