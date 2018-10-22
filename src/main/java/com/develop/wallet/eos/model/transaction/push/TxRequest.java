@@ -7,6 +7,11 @@ import com.develop.wallet.eos.model.BaseVo;
  * @author espritblock http://eblock.io
  */
 public class TxRequest extends BaseVo {
+    private String compression;
+
+    private Tx transaction;
+
+    private String[] signatures;
 
     public TxRequest() {
 
@@ -17,12 +22,6 @@ public class TxRequest extends BaseVo {
         this.transaction = transaction;
         this.signatures = signatures;
     }
-
-    private String compression;
-
-    private Tx transaction;
-
-    private String[] signatures;
 
     public String getCompression() {
         return compression;

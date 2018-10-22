@@ -1,11 +1,13 @@
 package com.develop.wallet.eos.model.transaction.push;
 
-import com.develop.wallet.eos.model.BaseVo;
-
 /**
  * @author espritblock http://eblock.io
  */
-public class TxActionAuth extends BaseVo {
+public class TxActionAuth extends BaseTx {
+    @FieldAnnotation(order = 1)
+    private String actor;
+    @FieldAnnotation(order = 2)
+    private String permission;
 
     public TxActionAuth() {
 
@@ -15,10 +17,6 @@ public class TxActionAuth extends BaseVo {
         this.actor = actor;
         this.permission = permission;
     }
-
-    private String actor;
-
-    private String permission;
 
     public String getActor() {
         return actor;

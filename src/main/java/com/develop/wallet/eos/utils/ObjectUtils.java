@@ -3,13 +3,12 @@ package com.develop.wallet.eos.utils;
 import com.develop.wallet.eos.crypto.utils.ByteBuffer;
 import com.develop.wallet.eos.crypto.utils.ByteUtils;
 import com.develop.wallet.eos.model.BaseVo;
+import com.develop.wallet.eos.model.transaction.push.BaseTx;
+import com.develop.wallet.eos.model.transaction.push.FieldAnnotation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ObjectUtils {
@@ -38,10 +37,43 @@ public class ObjectUtils {
         }
         Map<String, Object> map = new LinkedHashMap<>();
         Field[] fields = obj.getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            map.put(fields[i].getName(), getFieldValueByName(fields[i].getName(), obj));
+        // The Android client access to the order of the different lead to signature mistakes
+        if (obj instanceof BaseTx) {
+            List<Field> list = getOrderedField(fields);
+            for (int i = 0; i < list.size(); i++) {
+                map.put(list.get(i).getName(), getFieldValueByName(list.get(i).getName(), obj));
+            }
+        } else {
+            for (int i = 0; i < fields.length; i++) {
+                map.put(fields[i].getName(), getFieldValueByName(fields[i].getName(), obj));
+            }
         }
         return map;
+    }
+
+    private static List<Field> getOrderedField(Field[] fields) {
+        List<Field> fieldList = new ArrayList<>();
+        // Filter Field with annotations
+        for (Field f : fields) {
+            if (f.getAnnotation(FieldAnnotation.class) != null) {
+                fieldList.add(f);
+            }
+        }
+
+//        // for java 1.8
+//        fieldList.sort(Comparator.comparingInt(
+//                m -> m.getAnnotation(FieldAnnotation.class).order()
+//        ));
+
+        Collections.sort(fieldList, new Comparator<Field>() {
+
+            @Override
+            public int compare(Field o1, Field o2) {
+                int i = o1.getAnnotation(FieldAnnotation.class).order() - o2.getAnnotation(FieldAnnotation.class).order();
+                return i;
+            }
+        });
+        return fieldList;
     }
 
     public static void writeBytes(Object vo, ByteBuffer bf) {

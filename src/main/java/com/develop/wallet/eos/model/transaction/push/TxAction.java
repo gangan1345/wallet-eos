@@ -1,6 +1,6 @@
 package com.develop.wallet.eos.model.transaction.push;
 
-import com.develop.wallet.eos.model.BaseVo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,16 @@ import java.util.List;
 /**
  * @author espritblock http://eblock.io
  */
-public class TxAction extends BaseVo {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TxAction extends BaseTx {
+    @FieldAnnotation(order = 1)
+    private String account;
+    @FieldAnnotation(order = 2)
+    private String name;
+    @FieldAnnotation(order = 3)
+    private List<TxActionAuth> authorization;
+    @FieldAnnotation(order = 4)
+    private Object data;
 
     public TxAction() {
 
@@ -22,14 +31,6 @@ public class TxAction extends BaseVo {
         this.authorization = new ArrayList<>();
         this.authorization.add(new TxActionAuth(actor, "active"));
     }
-
-    private String account;
-
-    private String name;
-
-    private List<TxActionAuth> authorization;
-
-    private Object data;
 
     public String getAccount() {
         return account;

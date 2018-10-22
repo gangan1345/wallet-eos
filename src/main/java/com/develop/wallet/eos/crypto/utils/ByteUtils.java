@@ -5,7 +5,6 @@ import com.develop.wallet.eos.utils.EException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.stream.IntStream;
 
 /**
  * @author espritblock http://eblock.io
@@ -67,7 +66,12 @@ public class ByteUtils {
     public static int[] LongToBytes(Long n) {
         ByteBuffer hi = ByteBuffer.allocate(Long.BYTES).order(ByteOrder.BIG_ENDIAN).putLong(n);
         byte[] buf = hi.array();
-        int[] a = IntStream.range(0, buf.length).map(i -> buf[i] & 0xff).toArray();
+        // for java 8
+//		int[] a = IntStream.range(0, buf.length).map(i -> buf[i] & 0xff).toArray();
+        int[] a = new int[buf.length];
+        for (int i = 0; i < buf.length; i++) {
+            a[i] = buf[i] & 0xFF;
+        }
         return a;
     }
 

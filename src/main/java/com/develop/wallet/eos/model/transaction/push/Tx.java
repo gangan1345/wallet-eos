@@ -1,6 +1,5 @@
 package com.develop.wallet.eos.model.transaction.push;
 
-import com.develop.wallet.eos.model.BaseVo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
@@ -11,24 +10,24 @@ import java.util.List;
  * @author espritblock http://eblock.io
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Tx extends BaseVo {
-
+public class Tx extends BaseTx {
+    @FieldAnnotation(order = 1)
     private Object expiration;
-
+    @FieldAnnotation(order = 2)
     private Long ref_block_num;
-
+    @FieldAnnotation(order = 3)
     private Long ref_block_prefix;
-
+    @FieldAnnotation(order = 4)
     private Long net_usage_words;
-
+    @FieldAnnotation(order = 5)
     private Long max_cpu_usage_ms;
-
+    @FieldAnnotation(order = 6)
     private Long delay_sec;
-
+    @FieldAnnotation(order = 7)
     private List<String> context_free_actions = new ArrayList<>();
-
+    @FieldAnnotation(order = 8)
     private List<TxAction> actions;
-
+    @FieldAnnotation(order = 9)
     private List<TxExtenstions> transaction_extensions = new ArrayList<>();
 
     public Object getExpiration() {
